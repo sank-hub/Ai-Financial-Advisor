@@ -1,21 +1,21 @@
-# 💰 AI Financial Advisor
+# AI Financial Advisor
 ### Machine Learning–Driven Personal Finance & Investment Recommendation System
 
-🔗 **Live Application:**  
+ **Live Application:**  
 https://sank-hub-ai-financial-advisor-app-mcpqzc.streamlit.app/
 
 ---
 
-## 📖 Overview
+##  Overview
 The **AI Financial Advisor** is an end-to-end machine learning–powered web application that analyzes a user’s financial situation, infers their investment behavior, and generates **data-driven portfolio recommendations**.
 
 Unlike rule-based finance apps, this system uses **unsupervised machine learning and behavioral clustering** to produce personalized investment insights.
 
 ---
 
-## 🧠 Machine Learning Methodology (Core Focus)
+## Machine Learning Methodology (Core Focus)
 
-### 1️⃣ Investor Profiling (Unsupervised ML)
+###  Investor Profiling (Unsupervised ML)
 - **Algorithm:** KMeans Clustering  
 - **Features Used:**  
   - Age  
@@ -31,16 +31,16 @@ Each user is mapped to an **investor cluster** based on similarity to historical
 
 ---
 
-### 2️⃣ ML-Derived Portfolio Allocation
+###  ML-Derived Portfolio Allocation
 - Portfolio weights are **not manually defined**
 - Allocation is derived from the **cluster centroid**
 - Represents the *average investment behavior* of similar investors
 
-➡️ This ensures the recommendation is **purely ML-driven**, not hardcoded.
+ This ensures the recommendation is **purely ML-driven**, not hardcoded.
 
 ---
 
-### 3️⃣ Risk-Aware Market Index Recommendation
+###  Risk-Aware Market Index Recommendation
 - Uses historical market data (Dow Jones, S&P 500, etc.)
 - Volatility is calculated from price movements
 - User’s **ML-inferred risk tolerance** determines index suitability
@@ -48,7 +48,7 @@ Each user is mapped to an **investor cluster** based on similarity to historical
 
 ---
 
-### 4️⃣ ML-Connected Growth Projection
+###  ML-Connected Growth Projection
 - Portfolio growth is simulated using:
   - ML-derived allocation
   - Asset-specific expected returns
@@ -60,7 +60,7 @@ Each user is mapped to an **investor cluster** based on similarity to historical
 
 ---
 
-## 🌍 Currency-Aware & Region-Adjusted
+##  Currency-Aware & Region-Adjusted
 - Supports:
   - INR (₹)
   - USD ($)
@@ -73,17 +73,17 @@ Each user is mapped to an **investor cluster** based on similarity to historical
 
 ---
 
-## 🎯 Financial Milestones
+##  Financial Milestones
 The system evaluates whether the user can realistically achieve:
-- 🚗 Car Fund
-- 🏠 House Down Payment
-- 🧓 Retirement Corpus  
+-  Car Fund
+-  House Down Payment
+-  Retirement Corpus  
 
 All milestones are **currency-adjusted and ML-projection based**.
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 - **Frontend:** Streamlit
 - **Machine Learning:** Scikit-learn (KMeans)
 - **Data Processing:** Pandas, NumPy
