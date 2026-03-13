@@ -5,15 +5,11 @@ import joblib
 import plotly.express as px
 import os
 
-# -----------------------------
-# App config
-# -----------------------------
+
 st.set_page_config(page_title="AI Financial Advisor", layout="wide")
 st.title("💰 AI-Based Financial Planning Advisor")
 
-# -----------------------------
-# Global UI polish
-# -----------------------------
+
 st.markdown("""
 <style>
 
@@ -37,9 +33,7 @@ h1, h2, h3 {
 </style>
 """, unsafe_allow_html=True)
 
-# -----------------------------
-# Load models safely
-# -----------------------------
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 kmeans_model = joblib.load(os.path.join(BASE_DIR, "models", "kmeans_recommender.pkl"))
@@ -47,9 +41,7 @@ recommender_scaler = joblib.load(os.path.join(BASE_DIR, "models", "recommender_s
 growth_model = joblib.load(os.path.join(BASE_DIR, "models", "growth_prediction_model.pkl"))
 growth_scaler = joblib.load(os.path.join(BASE_DIR, "models", "growth_scaler.pkl"))
 
-# -----------------------------
-# Load stock behavior dataset
-# -----------------------------
+
 market_df = pd.read_csv(
     os.path.join(BASE_DIR, "data", "market_cleaned.csv")
 )
@@ -66,15 +58,10 @@ cluster_features = [
     "Gold"
 ]
 
-# ======================================================
-# SECTION 1: FINANCIAL HEALTH SNAPSHOT
-# ======================================================
+
 st.markdown("## 📊 Financial Health Snapshot")
 st.divider()
 
-# -----------------------------
-# Currency Selection (FIRST)
-# -----------------------------
 currency_map = {
     "Indian Rupee (₹)": {"symbol": "₹", "to_inr": 1.0},
     "US Dollar ($)": {"symbol": "$", "to_inr": 83.0},
@@ -99,9 +86,7 @@ to_inr_rate = currency_map[currency_choice]["to_inr"]
 
 st.caption("All inputs and outputs use the selected currency.")
 
-# -----------------------------
-# User Inputs (in chosen currency)
-# -----------------------------
+
 c1, c2, c3 = st.columns(3)
 
 with c1:
@@ -121,17 +106,13 @@ with c3:
     transport = st.number_input(f"Transport ({currency_symbol})", value=4000)
     others = st.number_input(f"Other Expenses ({currency_symbol})", value=3000)
 
-# -----------------------------
-# Convert to INR internally
-# -----------------------------
+
 income_inr = monthly_income * to_inr_rate
 expenses_inr = (rent + food + transport + others) * to_inr_rate
 tax_inr = income_inr * tax_rate / 100
 savings_inr = income_inr - expenses_inr - tax_inr
 
-# -----------------------------
-# Convert back to display currency
-# -----------------------------
+
 expenses = expenses_inr / to_inr_rate
 tax = tax_inr / to_inr_rate
 savings = savings_inr / to_inr_rate
@@ -139,9 +120,6 @@ savings = savings_inr / to_inr_rate
 savings_rate = (savings / monthly_income) * 100 if monthly_income > 0 else 0
 years_left = retirement_age - age
 
-# -----------------------------
-# Monthly Summary
-# -----------------------------
 st.markdown("### 💡 Monthly Summary")
 
 m1, m2, m3, m4 = st.columns(4)
@@ -159,9 +137,6 @@ elif savings_rate < 25:
 else:
     st.success("✅ Strong savings discipline.")
 
-# -----------------------------
-# Expense Breakdown Chart
-# -----------------------------
 expense_df = pd.DataFrame({
     "Category": ["Rent", "Food", "Transport", "Others"],
     "Amount": [rent, food, transport, others]
@@ -186,16 +161,12 @@ fig_exp.update_layout(
 
 st.plotly_chart(fig_exp, use_container_width=True)
 
-# ======================================================
-# SECTION 2: INVESTOR PROFILE & ML-BASED RECOMMENDATION
-# ======================================================
+
 st.header("🤖 Investor Profile & Recommendation")
 
 st.markdown("**Rate your comfort with each investment (0 = Low, 5 = High)**")
 
-# -----------------------------
-# User Preference Inputs
-# -----------------------------
+
 r1, r2, r3, r4 = st.columns(4)
 with r1:
     mf = st.slider("Mutual Funds", 0, 5, 3)
@@ -214,9 +185,7 @@ with r6:
 with r7:
     gold = st.slider("Gold", 0, 5, 2)
 
-# -----------------------------
-# ML: Cluster Prediction
-# -----------------------------
+
 user_features = np.array([[age, mf, eq, deb, bonds, fd, ppf, gold]])
 user_scaled = recommender_scaler.transform(user_features)
 cluster = kmeans_model.predict(user_scaled)[0]
@@ -230,9 +199,7 @@ cluster_profiles = {
 
 st.success(f"🧠 **Investor Profile:** {cluster_profiles[cluster]}")
 
-# ======================================================
-# ML-BASED PORTFOLIO ALLOCATION (CENTROID-DRIVEN)
-# ======================================================
+
 st.subheader("📌Portfolio Allocation")
 
 st.caption(
@@ -267,9 +234,7 @@ st.dataframe(
     use_container_width=True
 )
 
-# ======================================================
-# INVESTMENT AMOUNT ALLOCATION (ACTIONABLE OUTPUT)
-# ======================================================
+
 st.subheader("💼 Investment Amount Allocation")
 
 investment_amount = st.number_input(
@@ -289,9 +254,7 @@ st.dataframe(
     use_container_width=True
 )
 
-# -----------------------------
-# Allocation Visualization
-# -----------------------------
+
 fig_alloc = px.bar(
     allocation_df,
     x="Asset Class",
@@ -328,9 +291,7 @@ expected_returns = {
     "Gold": 0.06
 }
 
-# ======================================================
-# ML-ASSISTED MARKET INDEX RECOMMENDATION
-# ======================================================
+
 st.subheader("📊 Market Index Exposure")
 
 st.caption(
@@ -397,9 +358,6 @@ st.plotly_chart(
     use_container_width=True
 )
 
-# ======================================================
-# SECTION 3: ML-CONNECTED INVESTMENT GROWTH PROJECTION
-# ======================================================
 st.header("📈 Investment Growth Projection")
 
 st.caption(
@@ -453,9 +411,7 @@ st.plotly_chart(fig_growth, use_container_width=True)
 
 st.caption("Tip: Long-term consistency matters more than short-term market movements.")
 
-# ======================================================
-# SECTION 4: FINANCIAL MILESTONES (CURRENCY-AWARE)
-# ======================================================
+
 st.header("🎯 Financial Milestones")
 
 # Milestones defined in INR (base)
